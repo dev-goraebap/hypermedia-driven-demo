@@ -1,4 +1,5 @@
 @param java.util.List<String> errors
+@param com.example.demo.app.dto.LoginRequest loginRequest = null
 
 <!doctype html>
 <html lang="ko">
@@ -26,7 +27,8 @@
     @endif
 
     <label for="usernameInput">
-        <input id="usernameInput" type="text" name="username" placeholder="username">
+        <input id="usernameInput" type="text" name="username" placeholder="username"
+               value="${loginRequest != null ? loginRequest.username() : ""}">
     </label>
     <label for="passwordInput">
         <input id="passwordInput" type="password" name="password" placeholder="password">
