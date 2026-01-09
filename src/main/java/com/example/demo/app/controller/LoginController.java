@@ -20,16 +20,7 @@ import java.util.Objects;
 @RequestMapping("login")
 public class LoginController {
     @GetMapping
-    public String index(
-            HttpSession session
-    ) {
-        // 사용자가 인증세션이 있을경우 메인페이지로 리다이렉트
-        Object loginUser = session.getAttribute("loginUser");
-        if (loginUser != null) {
-            return "redirect:/";
-        }
-
-        // 인증세션이 없으면 로그인 템플릿 응답
+    public String index() {
         return "pages/login";
     }
 
