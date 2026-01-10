@@ -1,5 +1,5 @@
+@param gg.jte.Content content
 @param String title = "App"
-@param gg.jte.Content content = null
 
 <!doctype html>
 <html lang="ko">
@@ -11,8 +11,26 @@
     <title>Demo | ${title}</title>
     <!-- tailwindcss 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- htmx 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
+            integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-${content}
+<div class="mx-auto w-full max-w-xl h-screen p-4">
+    <nav class="border-y p-3">
+        <a href="/todos">목록</a>
+        <span>/</span>
+        <a href="/todos/register">등록</a>
+    </nav>
+
+    <br/>
+    <h1 class="text-3xl font-extrabold">Spring Boot + Htmx Example</h1>
+    <p class="text-sm">Hypermedia driven applications demo</p>
+    <br/>
+
+    ${content}
+</div>
 </body>
 </html>
