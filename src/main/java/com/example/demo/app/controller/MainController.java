@@ -10,7 +10,6 @@ public class MainController {
 
     @GetMapping
     public String index() {
-        // 인증세션이 있을 경우 메인 템플릿 응답
-        return "pages/main";
+        return "redirect:/todos";
     }
 }
