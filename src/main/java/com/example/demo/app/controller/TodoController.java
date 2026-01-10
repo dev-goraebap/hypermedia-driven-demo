@@ -31,9 +31,14 @@ public class TodoController {
         return "pages/todos/index";
     }
 
+    @GetMapping("/register")
+    public String register() {
+        return "pages/todos/register";
+    }
+
     @PostMapping
     public String create(
-            @Valid @ModelAttribute("param") TodoCreateRequest dto,
+            @Valid @ModelAttribute TodoCreateRequest dto,
             BindingResult bindingResult,
             Model model
     ) {
@@ -42,14 +47,14 @@ public class TodoController {
                     .stream().map(x -> x.getField() + ": " + x.getDefaultMessage())
                     .toList();
             model.addAttribute("errors", errors);
-            return "pages/todos/index";
+            return "pages/todos/register";
         }
 
         try {
             todoService.save(dto.content());
         } catch (ResponseStatusException ex) {
             model.addAttribute("errors", List.of(ex.getMessage()));
-            return "pages/todos/index";
+            return "pages/todos/register";
         }
 
         return "redirect:/todos";
