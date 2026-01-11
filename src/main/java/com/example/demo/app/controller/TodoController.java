@@ -5,7 +5,7 @@ import com.example.demo.app.domain.TodoService;
 import com.example.demo.app.dto.TodoCreateRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -31,11 +32,6 @@ public class TodoController {
         return "pages/todos/index";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        return "pages/todos/register";
-    }
-
     @PostMapping
     public String create(
             @Valid @ModelAttribute TodoCreateRequest dto,
@@ -47,16 +43,17 @@ public class TodoController {
                     .stream().map(x -> x.getField() + ": " + x.getDefaultMessage())
                     .toList();
             model.addAttribute("errors", errors);
-            return "pages/todos/register";
+            return "pages/todos/_createFail";
         }
 
         try {
-            todoService.save(dto.content());
+            Todo todo = todoService.save(dto.content());
+            model.addAttribute("todo", todo);
         } catch (ResponseStatusException ex) {
             model.addAttribute("errors", List.of(ex.getMessage()));
-            return "pages/todos/register";
+            return "pages/todos/_createFail";
         }
 
-        return "redirect:/todos";
+        return "pages/todos/_createSuccess";
     }
 }
