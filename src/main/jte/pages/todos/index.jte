@@ -20,9 +20,12 @@
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
             integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
             crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.4"
+            integrity="sha384-T41oglUPvXLGBVyRdZsVRxNWnOOqCynaPubjUVjxhsjFTKrFJGEMm3/0KGmNQ+Pg"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="mx-auto w-full max-w-xl h-screen p-4">
+<div hx-ext="response-targets" class="mx-auto w-full max-w-xl h-screen p-4">
     <br/>
     <h1 class="text-3xl font-extrabold">Spring Boot + Htmx Example</h1>
     <p class="text-sm">Hypermedia driven applications demo</p>
@@ -50,6 +53,8 @@
             @template.pages.todos._item(todo = todo)
         @endfor
     </ul>
+
+    <div id="HTMX_TODO_DELETE_ERROR"></div>
 </div>
 </body>
 </html>
