@@ -1,9 +1,7 @@
-@import com.example.demo.app.domain.Todo
 @import java.util.List
 
-@param List<Todo> todoList = new java.util.ArrayList()
-
 @param List<String> errors = null
+@param java.util.List<com.example.demo.app.domain.Todo> todoList = new java.util.ArrayList()
 
 <!doctype html>
 <html lang="ko">
@@ -24,17 +22,16 @@
             integrity="sha384-T41oglUPvXLGBVyRdZsVRxNWnOOqCynaPubjUVjxhsjFTKrFJGEMm3/0KGmNQ+Pg"
             crossorigin="anonymous"></script>
 </head>
-<body>
-<div hx-ext="response-targets" class="mx-auto w-full max-w-xl h-screen p-4">
+<body hx-ext="response-targets" hx-target-4xx="#HTMX_DEFAULT_ERROR_MODAL">
+<div class="mx-auto w-full max-w-xl h-screen p-4">
     <br/>
     <h1 class="text-3xl font-extrabold">Spring Boot + Htmx Example</h1>
     <p class="text-sm">Hypermedia driven applications demo</p>
     <br/>
 
     <form hx-post="/todos"
-          hx-target="#HTMX_TODOLIST"
-          hx-swap="beforeend"
-          hx-trigger="submit"
+          <%-- body의 hx-target-4xx 를 사용하지 않고 오버라이드함 --%>
+          hx-target-4xx="#HTMX_TODO_FORM_ERROR"
           class="w-full flex gap-2">
         <label for="contentInput" class="flex-8">
             <input id="contentInput"
@@ -45,7 +42,7 @@
         </label>
         <button class="p-3 bg-blue-500 text-white flex-4 rounded-xl">추가</button>
     </form>
-
+    <!-- 투두 등록 폼 에러에만 사용 -->
     <div id="HTMX_TODO_FORM_ERROR"></div>
 
     <ul id="HTMX_TODOLIST" class="border-t mt-4">
@@ -54,7 +51,8 @@
         @endfor
     </ul>
 
-    <div id="HTMX_TODO_DELETE_ERROR"></div>
+    <!-- 일반적인 4xx 에러들은 이 에러 모달을 사용하게 됨 -->
+    <div id="HTMX_DEFAULT_ERROR_MODAL"></div>
 </div>
 </body>
 </html>
