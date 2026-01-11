@@ -11,11 +11,6 @@
     <title>Demo | ${title}</title>
     <!-- tailwindcss 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <!-- htmx 추가 -->
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
-            integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
-            crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="mx-auto w-full max-w-xl h-screen p-4">

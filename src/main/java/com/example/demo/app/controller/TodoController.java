@@ -35,7 +35,7 @@ public class TodoController {
         return "pages/todos/register";
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public String create(
             @Valid @ModelAttribute TodoCreateRequest dto,
             BindingResult bindingResult,

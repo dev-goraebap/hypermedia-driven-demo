@@ -7,7 +7,7 @@
 !{ var content = todoCreateRequest != null ? todoCreateRequest.content() : ""; }
 
 @template.layouts.default(title = "todo list", content = @`
-    <form action="/todos" method="post" class="w-full flex gap-2">
+    <form action="/todos/register" method="post" class="w-full flex gap-2">
         <label for="contentInput" class="flex-8">
             <input id="contentInput"
                    type="text"
