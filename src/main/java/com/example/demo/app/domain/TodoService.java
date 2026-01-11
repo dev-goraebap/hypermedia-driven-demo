@@ -40,4 +40,13 @@ public class TodoService {
 
         return todo;
     }
+
+    public void destroy(String id) {
+        Todo todo = todoList.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 할 일입니다"));
+
+        todoList.remove(todo);
+    }
 }
