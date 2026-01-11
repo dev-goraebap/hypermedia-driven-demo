@@ -3,20 +3,16 @@ package com.example.demo.app.controller;
 import com.example.demo.app.domain.Todo;
 import com.example.demo.app.domain.TodoService;
 import com.example.demo.app.dto.TodoCreateRequest;
-import gg.jte.TemplateEngine;
-import jakarta.servlet.http.HttpServletResponse;
+import com.example.demo.common.annotation.ErrorTemplate;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -25,7 +21,6 @@ import java.util.Objects;
 public class TodoController {
 
     private final TodoService todoService;
-    private final TemplateEngine templateEngine;
 
     @GetMapping
     public String index(Model model) {
@@ -35,44 +30,19 @@ public class TodoController {
     }
 
     @PostMapping
-    public String create(
-            @Valid @ModelAttribute TodoCreateRequest dto,
-            BindingResult bindingResult,
-            Model model
-    ) {
-        if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getFieldErrors()
-                    .stream().map(x -> x.getField() + ": " + x.getDefaultMessage())
-                    .toList();
-            model.addAttribute("errors", errors);
-            return "pages/todos/_createFail";
-        }
-
-        try {
-            Todo todo = todoService.save(dto.content());
-            model.addAttribute("todo", todo);
-        } catch (ResponseStatusException ex) {
-            model.addAttribute("errors", List.of(ex.getMessage()));
-            return "pages/todos/_createFail";
-        }
-
-        return "pages/todos/_createSuccess";
+    @ErrorTemplate("pages/todos/_createFail")
+    public ResponseEntity<Void> create(@Valid @ModelAttribute TodoCreateRequest dto) {
+        todoService.save(dto.content());
+        return ResponseEntity.ok()
+                .header("HX-Location", "/todos")
+                .build();
     }
 
     @DeleteMapping("{id}")
-    public String destroy(
-            @PathVariable String id,
-            Model model,
-            HttpServletResponse response
-    ) {
-        try {
-            todoService.destroy(id);
-        } catch (ResponseStatusException ex) {
-            response.setStatus(ex.getStatusCode().value());
-            model.addAttribute("errors", List.of(Objects.requireNonNull(ex.getReason())));
-            return "pages/todos/_destroyFail";
-        }
-
-        return null;
+    public ResponseEntity<Void> destroy(@PathVariable String id) {
+        todoService.destroy(id);
+        return ResponseEntity.ok()
+                .header("HX-Location", "/todos")
+                .build();
     }
 }
