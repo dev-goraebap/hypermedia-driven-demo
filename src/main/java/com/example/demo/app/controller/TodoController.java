@@ -5,6 +5,7 @@ import com.example.demo.app.domain.TodoService;
 import com.example.demo.app.dto.TodoCreateRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,24 +36,24 @@ public class TodoController {
     public String create(
             @Valid @ModelAttribute TodoCreateRequest dto,
             BindingResult bindingResult,
-            RedirectAttributes redirectAttributes
+            Model model
     ) {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getFieldErrors()
                     .stream().map(x -> x.getField() + ": " + x.getDefaultMessage())
                     .toList();
-            redirectAttributes.addFlashAttribute("errors", errors);
-            redirectAttributes.addFlashAttribute("todoCreateRequest", dto);
-            return "redirect:/todos";
+            model.addAttribute("errors", errors);
+            return "pages/todos/_createFail";
         }
 
         try {
-            todoService.save(dto.content());
+            Todo todo = todoService.save(dto.content());
+            model.addAttribute("todo", todo);
         } catch (ResponseStatusException ex) {
-            redirectAttributes.addFlashAttribute("errors", List.of(ex.getMessage()));
-            redirectAttributes.addFlashAttribute("todoCreateRequest", dto);
+            model.addAttribute("errors", List.of(ex.getMessage()));
+            return "pages/todos/_createFail";
         }
 
-        return "redirect:/todos";
+        return "pages/todos/_createSuccess";
     }
 }

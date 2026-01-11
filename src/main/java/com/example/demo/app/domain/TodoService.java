@@ -27,7 +27,7 @@ public class TodoService {
         todoList.add(new Todo("풀업 10개씩 2세트"));
     }
 
-    public void save(String content) {
+    public Todo save(String content) {
         // 이미 저장된 내용과 같은 내용은 입력 못함
         boolean isDuplicate = todoList.stream()
                 .anyMatch(todo -> todo.getContent().equals(content));
@@ -35,6 +35,9 @@ public class TodoService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 할 일입니다");
         }
 
-        todoList.add(new Todo(content));
+        var todo = new Todo(content);
+        todoList.add(todo);
+
+        return todo;
     }
 }
