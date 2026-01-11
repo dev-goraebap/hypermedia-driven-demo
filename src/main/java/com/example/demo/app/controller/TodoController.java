@@ -43,6 +43,7 @@ public class TodoController {
                     .toList();
             redirectAttributes.addFlashAttribute("errors", errors);
             redirectAttributes.addFlashAttribute("todoCreateRequest", dto);
+            return "redirect:/todos";
         }
 
         try {
