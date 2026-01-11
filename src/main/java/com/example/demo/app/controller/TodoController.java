@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -30,30 +31,25 @@ public class TodoController {
         return "pages/todos/index";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        return "pages/todos/register";
-    }
-
-    @PostMapping("/register")
+    @PostMapping
     public String create(
             @Valid @ModelAttribute TodoCreateRequest dto,
             BindingResult bindingResult,
-            Model model
+            RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getFieldErrors()
                     .stream().map(x -> x.getField() + ": " + x.getDefaultMessage())
                     .toList();
-            model.addAttribute("errors", errors);
-            return "pages/todos/register";
+            redirectAttributes.addFlashAttribute("errors", errors);
+            redirectAttributes.addFlashAttribute("todoCreateRequest", dto);
         }
 
         try {
             todoService.save(dto.content());
         } catch (ResponseStatusException ex) {
-            model.addAttribute("errors", List.of(ex.getMessage()));
-            return "pages/todos/register";
+            redirectAttributes.addFlashAttribute("errors", List.of(ex.getMessage()));
+            redirectAttributes.addFlashAttribute("todoCreateRequest", dto);
         }
 
         return "redirect:/todos";
