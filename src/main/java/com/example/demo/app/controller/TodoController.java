@@ -2,6 +2,7 @@ package com.example.demo.app.controller;
 
 import com.example.demo.app.domain.Todo;
 import com.example.demo.app.domain.TodoService;
+import com.example.demo.app.dto.TodoCheckDuplicateRequest;
 import com.example.demo.app.dto.TodoCreateRequest;
 import com.example.demo.common.annotation.ErrorTemplate;
 import jakarta.validation.Valid;
@@ -29,9 +30,23 @@ public class TodoController {
         return "pages/todos/index";
     }
 
+    @GetMapping("check-duplicate")
+    @ErrorTemplate("pages/todos/_duplicateCheckBox")
+    public String checkDuplicate(
+            @Valid @ModelAttribute TodoCheckDuplicateRequest todoCheckDuplicateRequest,
+            Model model
+    ) throws InterruptedException {
+        Thread.sleep(1000L);
+        boolean result = todoService.checkDuplicate(todoCheckDuplicateRequest.content());
+        model.addAttribute("isDuplicated", result);
+        return "pages/todos/_duplicateCheckBox";
+    }
+
     @PostMapping
     @ErrorTemplate("pages/todos/_createFail")
-    public ResponseEntity<Void> create(@Valid @ModelAttribute TodoCreateRequest dto) {
+    public ResponseEntity<Void> create(@Valid @ModelAttribute TodoCreateRequest dto) throws InterruptedException {
+        Thread.sleep(3000L);
+
         todoService.save(dto.content());
         return ResponseEntity.ok()
                 .header("HX-Location", "/todos")
