@@ -3,7 +3,7 @@ package com.example.demo.app.controller;
 import com.example.demo.app.domain.Todo;
 import com.example.demo.app.domain.TodoService;
 import com.example.demo.app.dto.TodoCheckDuplicateRequest;
-import com.example.demo.app.dto.TodoCreateRequest;
+import com.example.demo.app.dto.TodoFormRequest;
 import com.example.demo.common.annotation.ErrorTemplate;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,10 +44,34 @@ public class TodoController {
 
     @PostMapping
     @ErrorTemplate("pages/todos/_createFail")
-    public ResponseEntity<Void> create(@Valid @ModelAttribute TodoCreateRequest dto) throws InterruptedException {
+    public ResponseEntity<Void> create(@Valid @ModelAttribute TodoFormRequest dto) throws InterruptedException {
         Thread.sleep(3000L);
 
         todoService.save(dto.content());
+        return ResponseEntity.ok()
+                .header("HX-Location", "/todos")
+                .build();
+    }
+
+    @GetMapping("{id}/edit")
+    public String edit(
+            @PathVariable String id,
+            Model model
+    ) {
+        Todo todo = todoService.getTodo(id);
+        model.addAttribute("todo", todo);
+        return "pages/todos/edit";
+    }
+
+    @PutMapping("{id}")
+    @ErrorTemplate("pages/todos/_editFail")
+    public ResponseEntity<Void> update(
+            @PathVariable String id,
+            @Valid @ModelAttribute TodoFormRequest dto
+    ) throws InterruptedException {
+        Thread.sleep(3000L);
+
+        todoService.update(id, dto.content());
         return ResponseEntity.ok()
                 .header("HX-Location", "/todos")
                 .build();

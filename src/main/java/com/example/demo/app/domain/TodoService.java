@@ -2,6 +2,7 @@ package com.example.demo.app.domain;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,6 +24,14 @@ public class TodoService {
                 .anyMatch(todo -> todo.getContent().equals(content));
     }
 
+
+    public Todo getTodo(String id) {
+        return todoList.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 할 일입니다"));
+    }
+
     public Todo save(String content) {
         // 이미 저장된 내용과 같은 내용은 입력 못함
         boolean isDuplicate = todoList.stream()
@@ -35,6 +44,15 @@ public class TodoService {
         todoList.add(todo);
 
         return todo;
+    }
+
+
+    public void update(String id, String content) {
+        Todo todo = todoList.stream()
+                .filter(t -> t.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 할 일입니다"));
+        todo.update(content);
     }
 
     public void destroy(String id) {

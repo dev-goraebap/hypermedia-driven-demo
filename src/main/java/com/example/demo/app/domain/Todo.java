@@ -9,10 +9,14 @@ public class Todo {
 
     private final String id;
 
-    private final String content;
+    private String content;
 
     Todo(String content) {
         this.id = UUID.randomUUID().toString();
+        this.content = content;
+    }
+
+    public void update(String content) {
         this.content = content;
     }
 }
