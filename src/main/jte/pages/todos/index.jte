@@ -79,6 +79,8 @@
 
     <!-- 일반적인 4xx 에러들은 이 에러 모달을 사용하게 됨 -->
     <div id="HTMX_DEFAULT_ERROR_MODAL"></div>
+
+    <div id="HTMX_EDIT_MODAL"></div>
 </div>
 </body>
 </html>

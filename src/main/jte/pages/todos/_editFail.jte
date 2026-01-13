@@ -1,0 +1,11 @@
+@param java.util.List<String> errors = null
+
+<div id="HTMX_TODO_EDIT_ERROR" hx-swap-oob="true">
+    @if(errors != null && !errors.isEmpty())
+        <div class="bg-red-300 text-red-700 p-3 rounded-xl mt-4">
+            @for(var error: errors)
+                <p>${error}</p>
+            @endfor
+        </div>
+    @endif
+</div>
