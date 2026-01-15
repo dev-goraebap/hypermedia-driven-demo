@@ -5,6 +5,7 @@ import com.example.demo.app.domain.TodoService;
 import com.example.demo.app.dto.TodoCheckDuplicateRequest;
 import com.example.demo.app.dto.TodoFormRequest;
 import com.example.demo.common.annotation.ErrorTemplate;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,8 +57,10 @@ public class TodoController {
     @GetMapping("{id}/edit")
     public String edit(
             @PathVariable String id,
+            HttpServletResponse response,
             Model model
-    ) {
+    ) throws InterruptedException {
+        Thread.sleep(3000L);
         Todo todo = todoService.getTodo(id);
         model.addAttribute("todo", todo);
         return "pages/todos/edit";
@@ -69,7 +72,7 @@ public class TodoController {
             @PathVariable String id,
             @Valid @ModelAttribute TodoFormRequest dto
     ) throws InterruptedException {
-        Thread.sleep(3000L);
+        Thread.sleep(1000L);
 
         todoService.update(id, dto.content());
         return ResponseEntity.ok()
