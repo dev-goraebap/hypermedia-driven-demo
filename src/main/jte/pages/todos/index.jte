@@ -21,6 +21,8 @@
     <script src="https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.4"
             integrity="sha384-T41oglUPvXLGBVyRdZsVRxNWnOOqCynaPubjUVjxhsjFTKrFJGEMm3/0KGmNQ+Pg"
             crossorigin="anonymous"></script>
+
+    <script type="module" src="/modal.js"></script>
 </head>
 <style>
     button span.loading {
@@ -80,7 +82,7 @@
     <!-- 일반적인 4xx 에러들은 이 에러 모달을 사용하게 됨 -->
     <div id="HTMX_DEFAULT_ERROR_MODAL"></div>
 
-    <div id="HTMX_EDIT_MODAL"></div>
+    @template.partials.modal()
 </div>
 </body>
 </html>

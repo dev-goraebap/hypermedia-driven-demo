@@ -5,9 +5,10 @@
         <p>${todo.getContent() }</p>
         <div class="flex gap-2">
             <button hx-get="/todos/${todo.getId()}/edit"
-                    hx-target="#HTMX_EDIT_MODAL"
+                    hx-target="#HTMX_MODAL"
                     hx-swap="innerHTML"
-                    class="text-xs text-yellow-500">
+                    hx-sync="this:abort"
+                    class="editModal text-xs text-yellow-500">
                 수정
             </button>
             <button hx-delete="/todos/${todo.getId()}"
