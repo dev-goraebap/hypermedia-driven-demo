@@ -1,51 +1,9 @@
-@import java.util.List
-
-@param List<String> errors = null
+@param java.util.List<String> errors = null
 @param java.util.List<com.example.demo.app.domain.Todo> todoList = new java.util.ArrayList()
 
-<!doctype html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Demo | Todo</title>
-    <!-- tailwindcss 추가 -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <!-- htmx 추가 -->
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
-            integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.4"
-            integrity="sha384-T41oglUPvXLGBVyRdZsVRxNWnOOqCynaPubjUVjxhsjFTKrFJGEMm3/0KGmNQ+Pg"
-            crossorigin="anonymous"></script>
-
-    <script type="module" src="/modal.js"></script>
-</head>
-<style>
-    button span.loading {
-        display: none;
-    }
-
-    .htmx-request button span.default {
-        display: none;
-    }
-
-    .htmx-request button span.loading {
-        display: inline;
-    }
-</style>
-<body hx-ext="response-targets" hx-target-4xx="#HTMX_DEFAULT_ERROR_MODAL">
-<div class="mx-auto w-full max-w-xl h-screen p-4">
-    <br/>
-    <h1 class="text-3xl font-extrabold">Spring Boot + Htmx Example</h1>
-    <p class="text-sm">Hypermedia driven applications demo</p>
-    <br/>
-
+@template.layouts.default(title = "할일 목록", content = @`
     <form hx-post="/todos"
-            <%-- body의 hx-target-4xx 를 사용하지 않고 오버라이드함 --%>
+          <%-- body의 hx-target-4xx 를 사용하지 않고 오버라이드함 --%>
           hx-target-4xx="#HTMX_TODO_FORM_ERROR"
           hx-disabled-elt="find button"
           class="w-full flex flex-col gap-2">
@@ -78,11 +36,4 @@
             @template.pages.todos._item(todo = todo)
         @endfor
     </ul>
-
-    <!-- 일반적인 4xx 에러들은 이 에러 모달을 사용하게 됨 -->
-    <div id="HTMX_DEFAULT_ERROR_MODAL"></div>
-
-    @template.partials.modal()
-</div>
-</body>
-</html>
+`)
