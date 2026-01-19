@@ -37,6 +37,7 @@ dependencies {
 }
 
 jte {
+	sourceDirectory = file("src/main/frontend/views").toPath()
 	generate()
 	binaryStaticContent = true
 }

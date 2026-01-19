@@ -1,3 +1,8 @@
+import htmx from 'htmx.org';
+import 'htmx-ext-response-targets';
+
+window.htmx = htmx;
+
 class Modal {
     static #currentTrigger = null;
 
@@ -13,7 +18,6 @@ class Modal {
     }
 
     static close() {
-        // 진행 중인 요청 abort
         if (this.#currentTrigger) {
             htmx.trigger(this.#currentTrigger, 'htmx:abort');
             this.#currentTrigger = null;
