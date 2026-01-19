@@ -13,18 +13,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Demo | ${title}</title>
-    <!-- tailwindcss 추가 -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <!-- htmx 추가 -->
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js"
-            integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/htmx-ext-response-targets@2.0.4"
-            integrity="sha384-T41oglUPvXLGBVyRdZsVRxNWnOOqCynaPubjUVjxhsjFTKrFJGEMm3/0KGmNQ+Pg"
-            crossorigin="anonymous"></script>
-
-    <script type="module" src="/modal.js"></script>
+<!-- Vite 빌드 -->
+<link rel="stylesheet" href="/builds/style.css">
+<script type="module" src="/builds/app.main.js"></script>
 </head>
 <style>
     button span.loading {

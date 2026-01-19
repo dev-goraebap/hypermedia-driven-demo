@@ -39,4 +39,8 @@ out/
 ### JTE ###
 /jte-classes/
 
+### Frontend ###
+node_modules/
+src/main/resources/vite/
+
 .docs
